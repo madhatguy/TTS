@@ -1,4 +1,4 @@
-# Convert Japanese text to phonemes which is
+# Convert Hebrew text to phonemes which is
 # compatible with Julius https://github.com/julius-speech/segmentation-kit
 
 import re
@@ -47,7 +47,7 @@ _BASE_CONSONANTS = {
     "א" : "ʔ",
 }
 
-_NIQQUD = {
+_VOWELS = {
     "\u05B0" : "", # בְ #TODO: find right IPA vowel
     "\u05B1" : "e", # חֱ
     "\u05B2" : "a", # חֲ
@@ -83,14 +83,16 @@ _NIQQUD = {
     "וּא" : "u",
 }
 
-_CONVRULES = {
+_FINALS = {
     # Conversion of 1 letter
     "ף" : "f",
     "ם" : "m",
     "ן" : "n",
     "ץ" : "ts",
     "ך" : "χ",
+}
 
+_DUAL_CHARS = {
 # Conversion of 2 letters
     "ג'" : "dʒ",
     "נג" : "ŋ",
@@ -105,6 +107,8 @@ _CONVRULES = {
     "אוֹ" : "ao", #TODO: also possible: o?
     "יוּ" : "ju",
 }
+
+_CONVRULES = _BASE_CONSONANTS + _VOWELS + _FINALS + _DUAL_CHARS
 
 _COLON_RX = re.compile(":+")
 _REJECT_RX = re.compile("[^ a-zA-Z:,.?]")
