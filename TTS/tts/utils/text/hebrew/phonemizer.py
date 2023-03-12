@@ -1,4 +1,4 @@
-# Convert Japanese text to phonemes which is
+# Convert Hebrew text to phonemes which is
 # compatible with Julius https://github.com/julius-speech/segmentation-kit
 
 import re
@@ -13,9 +13,9 @@ _suprasegmentals = "ˈˌːˑ"
 _other_symbols = "ʍwɥʜʢʡɕʑɺɧʲ"
 _diacrilics = "ɚ˞ɫ"
 _phonemes = _vowels + _non_pulmonic_consonants + _pulmonic_consonants + _suprasegmentals + _other_symbols + _diacrilics
+_vowels = "iyɨʉɯuɪʏʊeøɘəɵɤoɛœɜɞʌɔæɐaɶɑɒᵻ"
 
-_CONVRULES = {
-    # Conversion of 1 letter
+_BASE_CONSONANTS = {
     "בּ" : "b",
     "דּ" : "d",
     "ד" : "d",
@@ -45,13 +45,54 @@ _CONVRULES = {
     "ז" : "z",
     "ע" : "ʔ",
     "א" : "ʔ",
+}
 
+_VOWELS = {
+    "\u05B0" : "", # בְ #TODO: find right IPA vowel
+    "\u05B1" : "e", # חֱ
+    "\u05B2" : "a", # חֲ
+    "\u05B3" : "o", # חֳ
+    "\u05B4" : "i", # בִ
+    "\u05B5" : "e", # בֵ
+    "\u05B6" : "e", # בֶ
+    "\u05B7" : "a", # בַ
+    "\u05B8" : "a", # בָ #TODO: also possible: o?
+    "\u05B9" : "o", # בֹ
+    "\u05BA" : "o", # בֺ
+    "\u05BB" : "u", # בֻ
+    "\u05C7" : "a", # בׇ  #TODO: also possible: o?
+    "\u05B4\u05D9" : "i", # בִי
+    "\u05B5\u05D0" : "ei", # בֵא #TODO: also possible: e
+    "\u05B5\u05D4" : "ei", # בֵה #TODO: also possible: e
+    "\u05B5\u05D9" : "ei", # בֵי #TODO: also possible: e
+    "\u05B6\u05D0" : "ei", # בֶא #TODO: also possible: e
+    "\u05B6\u05D4" : "ei", # בֶה #TODO: also possible: e
+    "\u05B6\u05D9" : "ei", # בֶי #TODO: also possible: e
+    "\u05B7\u05D0" : "a", # בַא
+    "\u05B7\u05D4" : "a", # בַה
+    "\u05B8\u05D0" : "a", # בָא
+    "\u05B8\u05D4" : "a", # בָה
+    "\u05B9\u05D0" : "o", # בֹא
+    "\u05B9\u05D4" : "o", # בֹה
+    "\u05B9\u05D9" : "o", # בוֹ
+    "\u05BA\u05D0" : "o", # בֺא
+    "\u05BA\u05D4" : "o", # בֺה
+    "\u05BA\u05D9" : "o", # בוֺ
+    "וּ" : "u",
+    "וּה" : "u",
+    "וּא" : "u",
+}
+
+_FINALS = {
+    # Conversion of 1 letter
     "ף" : "f",
     "ם" : "m",
     "ן" : "n",
     "ץ" : "ts",
     "ך" : "χ",
+}
 
+_DUAL_CHARS = {
 # Conversion of 2 letters
     "ג'" : "dʒ",
     "נג" : "ŋ",
@@ -66,6 +107,8 @@ _CONVRULES = {
     "אוֹ" : "ao", #TODO: also possible: o?
     "יוּ" : "ju",
 }
+
+_CONVRULES = _BASE_CONSONANTS + _VOWELS + _FINALS + _DUAL_CHARS
 
 _COLON_RX = re.compile(":+")
 _REJECT_RX = re.compile("[^ a-zA-Z:,.?]")
