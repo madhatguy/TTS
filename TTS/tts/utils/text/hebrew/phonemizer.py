@@ -58,7 +58,7 @@ _VOWELS = {
     "\u05B7" : "a", # בַ
     "\u05B8" : "a", # בָ #TODO: also possible: o?
     "\u05B9" : "o", # בֹ
-    "\u05BA" : "o", # בֺ
+    "\u05BA" : "o", # בֺ 
     "\u05BB" : "u", # בֻ
     "\u05C7" : "a", # בׇ  #TODO: also possible: o?
     "\u05B4\u05D9" : "i", # בִי
